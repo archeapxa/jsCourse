@@ -37,13 +37,18 @@ function getFullPrice(screen, service) {
   return screen + service;
 }
 let fullPrice = getFullPrice(screenPrice, allServicePrices);
-let servicePercentPrice = Math.ceil(fullPrice - fullPrice * (rollback / 100));
+
+const getServicePercentPrices = function (fullPrice, rollback) {
+  return Math.ceil(fullPrice - fullPrice * (rollback / 100));
+};
+let servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 
 const getTitle = function (title) {
-  return title.charAt(0).trim() + title.slice(1);
+  return (
+    title.trim().charAt(0).toUpperCase() + title.trim().slice(1).toLowerCase()
+  );
 };
 title = getTitle(title);
-console.log(title);
 
 showTypeOf(title);
 showTypeOf(fullPrice);
