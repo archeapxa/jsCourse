@@ -54,16 +54,8 @@ showTypeOf(title);
 showTypeOf(fullPrice);
 showTypeOf(adaptive);
 
-console.log(getRollbackMessage(fullPrice));
-
-console.log(screens.length);
-console.log(servicePercentPrice);
-
-console.log("Стоимость верстки экранов " + screenPrice + " долларов");
-console.log("Стоимость разработки сайта " + fullPrice + " долларов");
-
 console.log(screensLowerCase.split(" "));
 
-console.log(
-  "Процент отката посреднику за работу: " + fullPrice * (rollback / 100)
-);
+console.log(getRollbackMessage(fullPrice));
+
+console.log(servicePercentPrice);
