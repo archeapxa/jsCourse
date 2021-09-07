@@ -1,16 +1,32 @@
 "use strict";
 
-let title = prompt("Как называется ваш проект?");
-let screens = prompt("Какие типы экранов нужно разработать");
-let screenPrice = parseInt(prompt("Сколько будет стоить данная работа?"));
-let adaptive = !!prompt("Нужен ли адаптив на сайте?");
-let service1 = prompt("Какой дополнительный тип услуги нужен?");
-let servicePrice1 = parseInt(prompt("Сколько это будет стоить?"));
-let service2 = prompt("Какой еще дополнительный тип услуги нужен?");
-let servicePrice2 = parseInt(prompt("Сколько это будет стоить?"));
 let rollback = 10;
+let title;
+let screens;
+let screenPrice;
+let adaptive;
+let service1;
+let service2;
+let allServicePrices;
+let fullPrice;
+let servicePercentPrice;
+let screensLowerCase;
 
-let screensLowerCase = screens.toLowerCase();
+const isNumber = function (num) {
+  // num = num.match(/\D+/, "");
+  return !isNaN(parseFloat(num)) && isFinite(num) && !!num;
+};
+
+const asking = function () {
+  title = prompt("Как называется ваш проект?", "Калькулятор верстки");
+  screens = prompt("Какие типы экранов нужно разработать", "Простые, сложные");
+  do {
+    screenPrice = parseFloat(
+      prompt("Сколько будет стоить данная работа?").match(/\d+/)
+    );
+  } while (!isNumber(screenPrice));
+  adaptive = confirm("Нужен ли адаптив на сайте?");
+};
 
 const showTypeOf = function (variable) {
   console.log(variable, typeof variable);
@@ -28,32 +44,54 @@ const getRollbackMessage = function (price) {
   }
 };
 
-const getAllServicePrices = function (price1, price2) {
-  return price1 + price2;
+const getAllServicePrices = function () {
+  let sum = 0;
+  let questionSum = 0;
+  for (let i = 0; i < 2; i++) {
+    if (i === 0) {
+      service1 = prompt("Какой дополнительный тип услуги нужен?");
+    } else if (i === 1) {
+      service2 = prompt("Какой еще дополнительный тип услуги нужен?");
+    }
+    do {
+      questionSum = parseFloat(
+        prompt("Сколько это будет стоить?").match(/\d+/)
+      );
+    } while (!isNumber(questionSum));
+    sum += questionSum;
+  }
+
+  return sum;
 };
-let allServicePrices = getAllServicePrices(servicePrice1, servicePrice2);
 
 function getFullPrice(screen, service) {
   return screen + service;
 }
-let fullPrice = getFullPrice(screenPrice, allServicePrices);
 
 const getServicePercentPrices = function (fullPrice, rollback) {
   return Math.ceil(fullPrice - fullPrice * (rollback / 100));
 };
-let servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 
 const getTitle = function (title) {
   return (
     title.trim().charAt(0).toUpperCase() + title.trim().slice(1).toLowerCase()
   );
 };
+
+asking();
+
+allServicePrices = getAllServicePrices();
+fullPrice = getFullPrice(screenPrice, allServicePrices);
+servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 title = getTitle(title);
 
 showTypeOf(title);
 showTypeOf(fullPrice);
 showTypeOf(adaptive);
 
+console.log("allServicePrices", allServicePrices);
+
+screensLowerCase = screens.toLowerCase();
 console.log(screensLowerCase.split(" "));
 
 console.log(getRollbackMessage(fullPrice));
