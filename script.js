@@ -92,7 +92,9 @@ showTypeOf(adaptive);
 console.log("allServicePrices", allServicePrices);
 
 screensLowerCase = screens.toLowerCase();
-console.log(screensLowerCase.split(" "));
+console.log(
+  screensLowerCase.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(" ")
+);
 
 console.log(getRollbackMessage(fullPrice));
 
